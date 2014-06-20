@@ -1,0 +1,8 @@
+! make caps lock control
+remove Lock = Caps_Lock
+keysym Caps_Lock = Control_L
+add control = Control_L
+
+! make right alt mod3
+remove mod1 = Alt_R
+add mod3 = Alt_R

@@ -1,0 +1,6 @@
+#name : interface
+# --
+// A ${1:name} ${2:TODO}
+type $1 interface {
+	$0
+}

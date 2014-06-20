@@ -1,0 +1,17 @@
+// ${2:name} ${2:$(concat (downcase text) "s")} ${5:TODO}
+func (${1:`
+(save-excursion
+  (save-match-data
+    (let ((target-re "^type[[:space:]]+\\([[:alnum:]]+\\)[[:space:]]+\\(struct[[:space:]]+{\\|[[:alnum:]]+[[:space:]]*\\)$")
+	  (case-fold-search nil))
+      (if (re-search-backward target-re nil 't)
+	  (let ((type (match-string 1)))
+	    (concat
+	     (downcase (substring type 0 1)) 
+	     (downcase (replace-regexp-in-string "[a-z]" "" (substring type 1)))
+	     " *"
+	     type))	  
+	"target"))))
+`}) $2(${3:arguments}) (${4:results}) {
+	$0
+}

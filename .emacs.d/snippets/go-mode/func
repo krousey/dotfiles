@@ -1,0 +1,4 @@
+// ${1:name} ${1:$(concat (downcase text) "s")} ${4:TODO}
+func $1(${2:arguments}) (${3:results}) {
+	$0
+}

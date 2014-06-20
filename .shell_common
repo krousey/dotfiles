@@ -1,0 +1,52 @@
+# -*- mode: sh; -*-
+
+# set up editor
+export EDITOR='emacsclient --alternate-editor="" -nw'
+
+# set up platform specific stuff
+case "$OSTYPE" in
+  linux*)
+    export PATH="${HOME}/bin":${PATH}
+    ;;
+
+  darwin*)
+    alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
+    export PATH="/Applications/Emacs.app/Contents/MacOS/bin/":${PATH}
+    export PATH="/opt/local/libexec/gnubin/":${PATH}
+    ;;
+
+  cygwin*)
+    ;;
+esac
+
+# convenience functions for swapping between qwerty and dvorak
+function aoeu() {
+  if [ -n "$DISPLAY" ]; then 
+    setxkbmap -layout us; 
+  else 
+    loadkeys /usr/share/keymaps/i386/qwerty/us-latin1.kmap.gz;
+  fi;
+}
+
+function asdf() {
+  if [ -n "$DISPLAY" ]; then 
+    setxkbmap -layout dvorak; 
+  else 
+    loadkeys /usr/share/keymaps/i386/dvorak/dvorak.kmap.gz;
+  fi;
+}
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# general aliases
+alias ec='emacsclient --alternate-editor=""'
+alias edit='emacsclient --alternate-editor=""'
