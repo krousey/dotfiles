@@ -29,12 +29,12 @@
   (list 'unless running-at-work (cons 'progn body)))
 
 (defun fullpath-relative-to-current-file (file-relative-path)
-  (concat (file-name-directory (or load-file-name buffer-file-name)) file-relative-path))
+  (expand-file-name file-relative-path (file-name-directory (or load-file-name buffer-file-name))))
 
 (defun load-relative-to-current-file (file-relative-path)
   (load-file (fullpath-relative-to-current-file file-relative-path)))
 
-(defvar my-emacs-root "~/emacs/" "The root of my emacs config.")
+(defvar my-emacs-root (fullpath-relative-to-current-file "emacs/") "The root of my emacs config.")
 
 (add-to-list 'load-path (concat my-emacs-root "site-lisp"))
 
