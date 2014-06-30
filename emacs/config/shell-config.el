@@ -19,3 +19,5 @@
       (comint-next-input arg)
     (next-line arg)
     ))
+
+(defshell "/usr/bin/zsh" "Zsh")
