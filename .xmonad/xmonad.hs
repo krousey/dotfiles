@@ -1,7 +1,6 @@
 import Data.Ratio ((%))
 import XMonad
 import qualified XMonad.Actions.FlexibleResize as Flex
-import XMonad.Actions.Volume
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -36,9 +35,6 @@ myConfig = withUrgencyHook NoUrgencyHook $ gnomeConfig
     `additionalKeys`
     [ ((myModMask, xK_b), sendMessage $ ToggleStruts) -- M-b toggle docking area
     , ((myModMask, xK_u), focusUrgent) -- Focus Urgent
-    , ((0, xK_F8), myMute) -- mute volume
-    , ((0, xK_F9), myVolDown) -- volume down
-    , ((0, xK_F10), myVolUp) -- volume up
     , ((myModMask,                 xK_Right), sendMessage $ Go R)
     , ((myModMask,                 xK_Left ), sendMessage $ Go L)
     , ((myModMask,                 xK_Up   ), sendMessage $ Go U)
@@ -81,10 +77,3 @@ myManage = manageHook gnomeConfig <+> manageDocks <+> composeAll
 
 myHandleEventHook = handleEventHook gnomeConfig <+> docksEventHook
 
-
--- Multimedia Controls
-volumeChannels = ["Master", "Headphone", "Speaker", "PCM"]
-
-myMute = toggleMuteChannels volumeChannels >> return ()
-myVolUp = raiseVolumeChannels volumeChannels 4 >> setMuteChannels volumeChannels False >> return ()
-myVolDown = lowerVolumeChannels volumeChannels 4 >> return ()

@@ -19,6 +19,7 @@
 (load-relative-to-current-file "go-config.el")
 (load-relative-to-current-file "ibuffer-config.el")
 (load-relative-to-current-file "ido-config.el")
+(load-relative-to-current-file "hiding-config.el")
 (load-relative-to-current-file "js2-config.el")
 (load-relative-to-current-file "misc-config.el")
 (load-relative-to-current-file "org-config.el")
