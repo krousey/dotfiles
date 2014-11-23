@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SKIP_FILES=('install.sh' 'README' '.git')
+SKIP_FILES=('install.sh' 'README' '.git' '.' '..')
 
 FILTER=$(IFS="|" ; echo "${SKIP_FILES[*]}")
 FILTER="!(${FILTER})"
