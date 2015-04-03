@@ -1,27 +1,21 @@
 (require 'package)
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("ELPA" . "http://tromey.com/elpa") t)
 
 (package-initialize)
 
 (defvar kris/my-packages
-  '(ac-js2
-    ac-math
-    auto-complete
-    auto-complete-clang
+  '(company
+    company-go
     evil
     evil-nerd-commenter
     evil-leader
+    flycheck
     fringe-helper
     ghc
     ghci-completion
     git-gutter
     git-gutter-fringe
-    go-autocomplete
     go-eldoc
     go-mode
     graphviz-dot-mode
@@ -30,6 +24,7 @@
     import-popwin
     js2-mode
     key-chord
+    magit
     multi-term
     multiple-cursors
     org

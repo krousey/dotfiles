@@ -1,9 +1,7 @@
-;; set color defaults
-(add-to-list 'custom-theme-load-path (concat my-emacs-root "themes"))
-(load-theme 'kris-tsdh-dark t)
-
 ;; No splash screen
 (setq inhibit-splash-screen t)
+
+(load-theme 'sanityinc-tomorrow-night t)
 
 ;; visual bell!
 (setq visible-bell t)
@@ -19,21 +17,22 @@
 ;; display the column number
 (setq column-number-mode t)
 
-;; fix the cursor during page ups and downs
-(setq scroll-preserve-screen-position t)
-
-;; I'm not done screwing with the scrolling
-(setq scroll-margin 2)
-
 ;; the keyboard is mightier than the mouse!
 (mouse-avoidance-mode 'jump)
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; fix the cursor during page ups and downs
+            (setq-local scroll-preserve-screen-position t)
+            (setq-local scroll-margin 2)
+
+            ;; show matching parenthesis
+            (show-paren-mode 1)
+            ))
 
 ;; turn on font-lock mode
 (when (fboundp 'global-font-lock-mode)
   (global-font-lock-mode t))
-
-;; show matching parenthesis
-(show-paren-mode 1)
 
 ;; show marked region and let me type over it
 (setq transient-mark-mode t)

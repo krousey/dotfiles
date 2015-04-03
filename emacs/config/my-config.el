@@ -11,11 +11,10 @@
 (when-at-work
  (load-relative-to-current-file "work/work-config.el"))
 
-(load-relative-to-current-file "autocomplete-config.el")
 (load-relative-to-current-file "autosave-config.el")
+(load-relative-to-current-file "eshell-config.el")
 (load-relative-to-current-file "evil-config.el")
-(load-relative-to-current-file "flymake-config.el")
-(load-relative-to-current-file "flyspell-config.el")
+(load-relative-to-current-file "flycheck-config.el")
 (load-relative-to-current-file "go-config.el")
 (load-relative-to-current-file "ibuffer-config.el")
 (load-relative-to-current-file "ido-config.el")
@@ -25,7 +24,6 @@
 (load-relative-to-current-file "org-config.el")
 (load-relative-to-current-file "popwin-config.el")
 (load-relative-to-current-file "python-config.el")
-(load-relative-to-current-file "scons-config.el")
 (load-relative-to-current-file "server-config.el")
 (load-relative-to-current-file "shell-config.el")
 (load-relative-to-current-file "smex-config.el")

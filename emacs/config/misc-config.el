@@ -1,5 +1,7 @@
 (setenv "BASH_ENV" "~/.bashrc")
 
+(setq enable-local-eval t)
+
 ;; newlines are required
 (setq require-final-newline t)
 

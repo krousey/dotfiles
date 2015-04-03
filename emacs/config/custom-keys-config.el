@@ -43,9 +43,6 @@
 (define-key shell-mode-map [up] 'shell-maybe-up)
 (define-key shell-mode-map [down] 'shell-maybe-down)
 
-;; autocomplete key map
-(define-key ac-mode-map  [(control tab)] 'auto-complete)
-
 ;; popwin prefix
 (global-set-key (kbd "C-p") popwin:keymap)
 
@@ -57,13 +54,15 @@
                        "; p" 'evilnc-comment-or-uncomment-paragraphs
                        "; r" 'comment-or-uncomment-region))
 
-;; Probably don't want this at work. Definitely not pastie.
+(global-set-key (kbd "C-c m") 'compile)
+(eval-after-load "evil-leader"
+  (evil-leader/set-key "c m" 'compile))
+
+;; Probably don't want to paste externally at work.
 (unless-at-work
- (global-set-key (kbd "C-c m") 'compile)
  (global-set-key (kbd "C-c p") 'pastie-region)
  (eval-after-load "evil-leader"
    (evil-leader/set-key
-    "c m" 'compile
     "c p" 'pastie-region)))
 
 ;; code folding

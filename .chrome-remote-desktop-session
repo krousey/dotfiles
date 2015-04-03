@@ -1,12 +1,2 @@
 #!/bin/bash
-exec gnome-session --session xmonad "$@"
-source ~/.bash_profile
-
-xsetroot -solid black&
-feh --bg-center .xmonad/bg.png
-
-autocutsel -fork &
-autocutsel -selection PRIMARY -fork &
-
-xcompmgr -c &
-exec xmonad
+exec /usr/sbin/lightdm-session /usr/bin/cinnamon-session-cinnamon2d

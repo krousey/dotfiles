@@ -3,16 +3,18 @@
 # set up editor
 export EDITOR='emacsclient --alternate-editor="" -nw'
 
+export GOPATH="${HOME}"/goproj
+
 # set up platform specific stuff
 case "$OSTYPE" in
   linux*)
-    export PATH="${HOME}/bin":${PATH}
+    export PATH="${HOME}/bin":${PATH}:$GOPATH/bin
     ;;
 
   darwin*)
     alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
     export PATH="/Applications/Emacs.app/Contents/MacOS/bin/":${PATH}
-    export PATH="/opt/local/libexec/gnubin/":${PATH}
+    export PATH="/opt/local/libexec/gnubin/":${PATH}:$GOPATH/bin
     ;;
 
   cygwin*)
