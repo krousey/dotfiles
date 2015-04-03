@@ -1,4 +1,0 @@
-#!/bin/bash
-go tool vet $1
-golint --min_confidence=0 $1 | grep -v 'should have a package comment'
-true
