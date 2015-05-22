@@ -4,7 +4,22 @@
 (require 'flycheck)
 
 (add-hook 'before-save-hook 'gofmt-before-save)
+
+(defun setup-godep-env ()
+  "Modify GOPATH locally for godep managed projects."
+  (when (locate-dominating-file (buffer-file-name) "Godeps/Godeps.json")
+    (set (make-local-variable 'process-environment) (append process-environment (list)))
+    (let ((godep-path
+	   (replace-regexp-in-string
+	    "\n$" ""
+	    (shell-command-to-string "godep path"))))
+      (setenv "GOPATH"
+	      (concat godep-path
+		      path-separator
+		      (getenv "GOPATH"))))))
+
 (defun my-go-mode-hook ()
+  (setup-godep-env)
   (go-eldoc-setup)
   (flycheck-mode)
   (let ((whitespace-style '(face lines-tail trailing)))

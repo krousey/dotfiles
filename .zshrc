@@ -46,12 +46,8 @@ else
   echo "Error: ~/.shell_common does not exist"
 fi
 
-if [[ -f ~/.at_work ]]; then
-  if [[ -f ~/.zsh_work ]]; then
-    source ~/.zsh_work
-  else
-    echo "Error: ~/.zsh_work does not exist"
-  fi
+if [[ -f ~/.zshrc.$(hostname -s) ]]; then
+  source ~/.zshrc.$(hostname -s)
 fi
 
 autoload -Uz compinit && compinit

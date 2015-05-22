@@ -1,15 +1,18 @@
 (require 'package)
+(require 'cl)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
 
 (defvar kris/my-packages
-  '(company
+  '(color-theme-sanityinc-tomorrow
+    company
     company-go
     evil
     evil-nerd-commenter
     evil-leader
+    evil-surround
     flycheck
     fringe-helper
     ghc
