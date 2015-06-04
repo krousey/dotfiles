@@ -32,7 +32,7 @@
 (global-font-lock-mode t)
 (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
 (add-to-list 'default-frame-alist 
-             '(font . "-unknown-Inconsolata-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
+             '(font . "-unknown-Inconsolata-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
 
 ;; Miscellaneous
 
@@ -76,12 +76,22 @@
 
 (use-package compile
   :config
+  (global-set-key (kbd "C-c m") 'compile)
+  (eval-after-load "evil-leader"
+    (evil-leader/set-key "c m" 'compile))
   (setq compilation-scroll-output 'first-error))
+
+;; Eldoc
+
+(use-package eldoc
+  :defer t
+  :diminish eldoc-mode)
 
 ;; Eshell
 
 (use-package eshell
   :commands eshell
+  :functions eshell/pwd
   :init
   (defvar my/eshell-prompt-client-path-functions nil
     "A list of functions that take a path and return a list of
@@ -189,6 +199,7 @@ client name and remaining path")
 (use-package flycheck
   :ensure t
   :commands flycheck-mode
+  :diminish flycheck-mode
   :config
   (setq flycheck-highlighting-mode nil))
 
@@ -215,6 +226,10 @@ client name and remaining path")
   :ensure t
   :commands (ibuffer ibuffer-other-window)
   :config
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (eval-after-load "evil-leader"
+    (evil-leader/set-key "b" 'ibuffer))
+
   ;; short mode names
   (define-ibuffer-column mode-s
     (:name "Mode"
@@ -281,19 +296,21 @@ client name and remaining path")
 
 ;; Hiding
 
-(add-hook 'prog-mode-hook 'hs-minor-mode)
-
-(defun my/toggle-hiding ()
-  (interactive)
-  (when hs-minor-mode
+(use-package hideshow
+  :diminish hs-minor-mode
+  :config
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
+  (defun my/toggle-hiding ()
+    (interactive)
+    (when hs-minor-mode
       (if (condition-case nil
               (hs-toggle-hiding)
             (error t))
           (hs-show-all))))
 
-(global-set-key (kbd "C-c h") 'my/toggle-hiding)
-(eval-after-load "evil-leader"
-  (evil-leader/set-key "h" 'my/toggle-hiding))
+  (global-set-key (kbd "C-c h") 'my/toggle-hiding)
+  (eval-after-load "evil-leader"
+    (evil-leader/set-key "h" 'my/toggle-hiding)))
 
 ;; Magit
 
@@ -307,15 +324,37 @@ client name and remaining path")
 ;; Miscellaneous
 
 (setq enable-local-eval t)
-(setq default-major-mode 'text-mode)
+(setq-default major-mode 'text-mode)
 (setq x-select-enable-clipboard t)
+(setq inhibit-startup-message t)
+
+;; Narrowing
+
+(defun my/narrow-or-widen-dwim (p)
+  "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
+Intelligently means: region, subtree, or defun, whichever applies
+first.
+With prefix P, don't widen, just narrow even if buffer is already
+narrowed."
+  (interactive "P")
+  (declare (interactive-only))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+        ((region-active-p)
+         (narrow-to-region (region-beginning) (region-end)))
+        ((derived-mode-p 'org-mode) (org-narrow-to-subtree))
+        (t (narrow-to-defun))))
+
+(global-set-key (kbd "C-c n") 'my/narrow-or-widen-dwim)
+(eval-after-load "evil-leader"
+  (evil-leader/set-key
+    "n" 'my/narrow-or-widen-dwim))
 
 ;; Popwin
 
 (use-package popwin
   :ensure t
   :config
-  (push '(compilation-mode :noselect t :stick t :position bottom)
+  (push '(compilation-mode :noselect t :stick t :dedicated t :position bottom)
         popwin:special-display-config)
   (push '("*Gofmt Errors*" :noselect t :position bottom)
         popwin:special-display-config)
@@ -334,7 +373,20 @@ client name and remaining path")
 (use-package smex
   :ensure t
   :config
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+  (eval-after-load "evil-leader"
+    (evil-leader/set-key
+      "x" 'smex
+      "X" 'smex-major-mode-commands))
   (smex-initialize))
+
+;; Undo Tree
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode)
 
 ;; Uniquify
 
@@ -353,10 +405,24 @@ client name and remaining path")
         mode-line-misc-info (assq-delete-all 'which-func-mode mode-line-misc-info))
   (which-function-mode))
 
+;; Whitespace mode
+
+(use-package whitespace
+  :commands whitespace-mode
+  :diminish whitespace-mode)
+
+;; Windmove
+
+(use-package windmove
+  :config
+  (setq windmove-wrap-around t)
+  (windmove-default-keybindings))
+
 ;; YASnippet
 
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 
@@ -378,6 +444,23 @@ client name and remaining path")
   :ensure t
   :commands go-eldoc-setup)
 
+(use-package go-oracle
+  :load-path "lisp"
+  :commands 
+  (go-oracle-callees
+   go-oracle-callers
+   go-oracle-callgraph
+   go-oracle-callstack
+   go-oracle-definition
+   go-oracle-describe
+   go-oracle-freevars
+   go-oracle-implements
+   go-oracle-peers
+   go-oracle-pointsto
+   go-oracle-referrers
+   go-oracle-set-scope
+   go-oracle-whicherrs))
+
 (use-package go-mode
   :ensure t
   :mode ("\\.go\\'" . go-mode)
@@ -398,7 +481,7 @@ client name and remaining path")
                         (getenv "GOPATH"))))))
 
   (defun my/go-mode-hook ()
-    (setup-godep-env)
+    (my/setup-godep-env)
     (go-eldoc-setup)
     (flycheck-mode)
     (let ((whitespace-style '(face lines-tail trailing)))
@@ -421,6 +504,7 @@ client name and remaining path")
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
+            (eldoc-mode)
             (company-mode)))
 
 ;; Org mode
@@ -431,6 +515,15 @@ client name and remaining path")
   (setq org-replace-disputed-keys t)
   :mode ("\\.org\\'" . org-mode)
   :config
+ (define-key global-map (kbd "C-c o l") 'org-store-link)
+ (define-key global-map (kbd "C-c o a") 'org-agenda)
+ (define-key global-map (kbd "C-c o b") 'org-iswitchb)
+ (eval-after-load "evil-leader"
+   (evil-leader/set-key
+     "c o l" 'org-store-link
+     "c o a" 'org-agenda
+     "c o b" 'org-iswitchb))
+
   (setq org-startup-indented t)
   (setq org-src-fontify-natively t)
   (setq org-src-window-setup 'other-window)
@@ -448,3 +541,13 @@ client name and remaining path")
            (ledger . t)
            (org . t)
            (latex . t)))))
+  
+(use-package org-indent-mode
+  :defer t
+  :diminish org-indent-mode)
+
+;; Local customizations
+
+(let ((local-init-file (concat user-emacs-directory "local.el")))
+  (when (file-exists-p local-init-file)
+    (load-file local-init-file)))
