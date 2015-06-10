@@ -507,6 +507,12 @@ narrowed."
             (eldoc-mode)
             (company-mode)))
 
+;; Sh
+
+(add-hook 'sh-mode-hook
+          (lambda ()
+            (flycheck-mode)))
+
 ;; Org mode
 
 (use-package org
@@ -551,3 +557,7 @@ narrowed."
 (let ((local-init-file (concat user-emacs-directory "local.el")))
   (when (file-exists-p local-init-file)
     (load-file local-init-file)))
+
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))

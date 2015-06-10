@@ -3,4 +3,5 @@
 !.emacs.d/init.org
 !.emacs.d/*.el
 .emacs.d/local.el
+.emacs.d/custom.el
 !.emacs.d/lisp

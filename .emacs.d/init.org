@@ -1,6 +1,6 @@
 * Bootstrap
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp :exports none
   ;; Do not modify this file manually. It was generated from init.org in the same
   ;; directory. Edit that instead.
 #+END_SRC
@@ -537,6 +537,12 @@ Continuous checking
               (company-mode)))
 #+END_SRC
 
+** Sh
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (flycheck-mode)))
+#+END_SRC
 * Org mode
 #+BEGIN_SRC emacs-lisp
   (use-package org
@@ -582,11 +588,14 @@ Continuous checking
   (let ((local-init-file (concat user-emacs-directory "local.el")))
     (when (file-exists-p local-init-file)
       (load-file local-init-file)))
+  
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  (when (file-exists-p custom-file)
+    (load custom-file))
 #+END_SRC
 
-;; Local Variables:
-;; eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle) (byte-compile-file user-init-file)) nil t)
-;; eval: (setq-local org-babel-default-header-args:emacs-lisp '((:comments . "org") (:tangle . "yes") (:exports . "code")))
-;; End:
-
+# Local Variables:
+# eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle) (byte-compile-file user-init-file)) nil t)
+# eval: (setq-local org-babel-default-header-args:emacs-lisp '((:comments . "org") (:tangle . "yes") (:exports . "code")))
+# End:
 

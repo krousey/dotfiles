@@ -5,7 +5,9 @@
 
 (dir-locals-set-class-variables
  'kubernetes-project
- '((go-mode
+ '((nil . ((grep-find-template . "find . <X> -type f <F> -exec grep <C> -nHI -e <R> {} +")
+	   (grep-find-ignored-directories . (".git" "_output" "Godeps"))))
+   (go-mode
     .
     ((eval
       .
