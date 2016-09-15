@@ -91,7 +91,7 @@ Code completion
   (use-package compile
     :config
     (global-set-key (kbd "C-c m") 'compile)
-    (eval-after-load "evil-leader"
+    (with-eval-after-load "evil-leader"
       (evil-leader/set-key "c m" 'compile))
     (setq compilation-scroll-output 'first-error))
 #+END_SRC
@@ -203,7 +203,7 @@ VIM emulation
   (use-package evil-nerd-commenter
     :ensure t
     :config
-    (eval-after-load "evil-leader"
+    (with-eval-after-load "evil-leader"
       (evil-leader/set-key
         "; i" 'evilnc-comment-or-uncomment-lines
         "; l" 'evilnc-comment-or-uncomment-to-the-line
@@ -250,7 +250,7 @@ Continuous checking
     :commands (ibuffer ibuffer-other-window)
     :config
     (global-set-key (kbd "C-x C-b") 'ibuffer)
-    (eval-after-load "evil-leader"
+    (with-eval-after-load "evil-leader"
       (evil-leader/set-key "b" 'ibuffer))
   
     ;; short mode names
@@ -333,7 +333,7 @@ Continuous checking
             (hs-show-all))))
   
     (global-set-key (kbd "C-c h") 'my/toggle-hiding)
-    (eval-after-load "evil-leader"
+    (with-eval-after-load "evil-leader"
       (evil-leader/set-key "h" 'my/toggle-hiding)))
 #+END_SRC
 
@@ -371,7 +371,7 @@ Continuous checking
           (t (narrow-to-defun))))
   
   (global-set-key (kbd "C-c n") 'my/narrow-or-widen-dwim)
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key
       "n" 'my/narrow-or-widen-dwim))
 #+END_SRC
@@ -402,7 +402,7 @@ Continuous checking
     (global-set-key (kbd "M-x") 'smex)
     (global-set-key (kbd "M-X") 'smex-major-mode-commands)
     (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-    (eval-after-load "evil-leader"
+    (with-eval-after-load "evil-leader"
       (evil-leader/set-key
         "x" 'smex
         "X" 'smex-major-mode-commands))
@@ -498,7 +498,7 @@ Continuous checking
   
     (defun my/setup-godep-env ()
       "Modify GOPATH locally for godep managed projects."
-      (when (locate-dominating-file (buffer-file-name) "Godeps/Godeps.json")
+      (when (locate-dominating-file (buffer-file-name) "Godeps/_workspace")
         (set (make-local-variable 'process-environment) (append process-environment (list)))
         (let ((godep-path
                (replace-regexp-in-string
@@ -554,7 +554,7 @@ Continuous checking
    (define-key global-map (kbd "C-c o l") 'org-store-link)
    (define-key global-map (kbd "C-c o a") 'org-agenda)
    (define-key global-map (kbd "C-c o b") 'org-iswitchb)
-   (eval-after-load "evil-leader"
+   (with-eval-after-load "evil-leader"
      (evil-leader/set-key
        "c o l" 'org-store-link
        "c o a" 'org-agenda

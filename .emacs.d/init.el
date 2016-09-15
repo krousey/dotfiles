@@ -27,13 +27,6 @@
   :ensure t
   :config (load-theme 'sanityinc-tomorrow-night t))
 
-;; Fonts and syntax
-
-(global-font-lock-mode t)
-(add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-(add-to-list 'default-frame-alist 
-             '(font . "-unknown-Inconsolata-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
-
 ;; Miscellaneous
 
 ;; Reduce the clutter.
@@ -77,7 +70,7 @@
 (use-package compile
   :config
   (global-set-key (kbd "C-c m") 'compile)
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key "c m" 'compile))
   (setq compilation-scroll-output 'first-error))
 
@@ -185,7 +178,7 @@ client name and remaining path")
 (use-package evil-nerd-commenter
   :ensure t
   :config
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key
       "; i" 'evilnc-comment-or-uncomment-lines
       "; l" 'evilnc-comment-or-uncomment-to-the-line
@@ -227,7 +220,7 @@ client name and remaining path")
   :commands (ibuffer ibuffer-other-window)
   :config
   (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key "b" 'ibuffer))
 
   ;; short mode names
@@ -309,7 +302,7 @@ client name and remaining path")
           (hs-show-all))))
 
   (global-set-key (kbd "C-c h") 'my/toggle-hiding)
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key "h" 'my/toggle-hiding)))
 
 ;; Magit
@@ -345,7 +338,7 @@ narrowed."
         (t (narrow-to-defun))))
 
 (global-set-key (kbd "C-c n") 'my/narrow-or-widen-dwim)
-(eval-after-load "evil-leader"
+(with-eval-after-load "evil-leader"
   (evil-leader/set-key
     "n" 'my/narrow-or-widen-dwim))
 
@@ -376,7 +369,7 @@ narrowed."
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-  (eval-after-load "evil-leader"
+  (with-eval-after-load "evil-leader"
     (evil-leader/set-key
       "x" 'smex
       "X" 'smex-major-mode-commands))
@@ -469,7 +462,7 @@ narrowed."
 
   (defun my/setup-godep-env ()
     "Modify GOPATH locally for godep managed projects."
-    (when (locate-dominating-file (buffer-file-name) "Godeps/Godeps.json")
+    (when (locate-dominating-file (buffer-file-name) "Godeps/_workspace")
       (set (make-local-variable 'process-environment) (append process-environment (list)))
       (let ((godep-path
              (replace-regexp-in-string
@@ -524,7 +517,7 @@ narrowed."
  (define-key global-map (kbd "C-c o l") 'org-store-link)
  (define-key global-map (kbd "C-c o a") 'org-agenda)
  (define-key global-map (kbd "C-c o b") 'org-iswitchb)
- (eval-after-load "evil-leader"
+ (with-eval-after-load "evil-leader"
    (evil-leader/set-key
      "c o l" 'org-store-link
      "c o a" 'org-agenda
