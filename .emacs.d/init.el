@@ -196,6 +196,17 @@ client name and remaining path")
   :config
   (setq flycheck-highlighting-mode nil))
 
+;; Guide Key
+;; Helpful reminders of key bindings
+
+(use-package guide-key
+  :ensure t
+  :diminish guide-key-mode
+  :config
+  (setq guide-key/guide-key-sequence '("C-c" "SPC"))
+  (setq guide-key/recursive-key-sequence-flag t)
+  (guide-key-mode 1))
+
 ;; IDO
 
 (use-package ido
@@ -347,9 +358,11 @@ narrowed."
 (use-package popwin
   :ensure t
   :config
-  (push '(compilation-mode :noselect t :stick t :dedicated t :position bottom)
+  (push '(compilation-mode :noselect t :stick t :position bottom)
         popwin:special-display-config)
   (push '("*Gofmt Errors*" :noselect t :position bottom)
+        popwin:special-display-config)
+  (push '("*go-guru-output*" :noselect t :stick t :position bottom)
         popwin:special-display-config)
   (popwin-mode 1))
 
@@ -437,22 +450,23 @@ narrowed."
   :ensure t
   :commands go-eldoc-setup)
 
-(use-package go-oracle
-  :load-path "lisp"
-  :commands 
-  (go-oracle-callees
-   go-oracle-callers
-   go-oracle-callgraph
-   go-oracle-callstack
-   go-oracle-definition
-   go-oracle-describe
-   go-oracle-freevars
-   go-oracle-implements
-   go-oracle-peers
-   go-oracle-pointsto
-   go-oracle-referrers
-   go-oracle-set-scope
-   go-oracle-whicherrs))
+(use-package go-guru
+  :ensure t
+  :config
+  (with-eval-after-load "evil-leader"
+    (evil-leader/set-key-for-mode 'go-mode
+      "g d" 'go-guru-describe
+      "g f" 'go-guru-freevars
+      "g i" 'go-guru-implements
+      "g c" 'go-guru-peers
+      "g r" 'go-guru-referrers
+      "g j" 'go-guru-definition
+      "g p" 'go-guru-pointsto
+      "g s" 'go-guru-callstack
+      "g e" 'go-guru-whicherrs
+      "g <" 'go-guru-callers
+      "g >" 'go-guru-callees
+      "g x" 'go-guru-expand-region)))
 
 (use-package go-mode
   :ensure t
@@ -460,23 +474,10 @@ narrowed."
   :config
   (setq gofmt-command "goimports")
 
-  (defun my/setup-godep-env ()
-    "Modify GOPATH locally for godep managed projects."
-    (when (locate-dominating-file (buffer-file-name) "Godeps/_workspace")
-      (set (make-local-variable 'process-environment) (append process-environment (list)))
-      (let ((godep-path
-             (replace-regexp-in-string
-              "\n$" ""
-              (shell-command-to-string "godep path"))))
-        (setenv "GOPATH"
-                (concat godep-path
-                        path-separator
-                        (getenv "GOPATH"))))))
-
   (defun my/go-mode-hook ()
-    (my/setup-godep-env)
     (go-eldoc-setup)
     (flycheck-mode)
+    (go-guru-hl-identifier-mode)
     (let ((whitespace-style '(face lines-tail trailing)))
       (whitespace-mode))
     (setq-local tab-width 4)

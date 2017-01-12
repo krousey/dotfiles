@@ -1,17 +1,8 @@
-(defun my/kubernetes-go-oracle-scope ()
-  "Returns a space separated string of scopes for go oracle to use"
-  (let ((kuberenetes-packages (shell-command-to-string "go list -f '{{if eq .Name \"main\"}}{{.ImportPath}}{{end}}' github.com/GoogleCloudPlatform/kubernetes/...")))
-    (replace-regexp-in-string "\n" " " kuberenetes-packages)))
-
 (dir-locals-set-class-variables
  'kubernetes-project
  '((nil . ((grep-find-template . "find . <X> -type f <F> -exec grep <C> -nHI -e <R> {} +")
 	   (grep-find-ignored-directories . (".git" "_output" "Godeps"))))
-   (go-mode
-    .
-    ((eval
-      .
-      (setq-local go-oracle-scope (my/kubernetes-go-oracle-scope)))))))
+   (go-mode . ((go-oracle-scope . ".")))))
 
 ;; Put this in local.el and make sure the path is right
 ;; (load-file (concat user-emacs-directory "kubernetes.el"))
