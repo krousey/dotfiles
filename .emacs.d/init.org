@@ -36,21 +36,20 @@ I also want to use :diminish with use-package.
 
 ** Fonts and syntax
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp 
   (global-font-lock-mode t)
   (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-  (add-to-list 'default-frame-alist 
-               '(font . "-unknown-Inconsolata-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
-#+END_SRC emacs-lisp
+  (set-frame-font "Inconsolata-12")
+#+END_SRC
 
 ** Miscellaneous
 
 Reduce the clutter.
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
-  
+
   (setq window-min-height 3
         column-number-mode t
         mouse-avoidance-mode 'jump)
@@ -177,8 +176,10 @@ VIM emulation
     :ensure t
     :config
     (setq evil-default-cursor t)
-    (evil-mode 1))
-  
+    (evil-mode 1)
+    (eval-after-load "evil-ex"
+      (evil-ex-define-cmd "W[rite]" 'evil-write)))
+
   (use-package key-chord  
     :ensure t
     :config
@@ -188,18 +189,18 @@ VIM emulation
     (key-chord-define evil-visual-state-map "jk" 'evil-change-to-previous-state)
     (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
     (key-chord-define evil-replace-state-map "jk" 'evil-normal-state))
-  
+
   (use-package evil-surround
     :ensure t
     :config
     (global-evil-surround-mode 1))
-  
+
   (use-package evil-leader
     :ensure t
     :config
     (global-evil-leader-mode t)
     (evil-leader/set-leader "<SPC>"))
-  
+
   (use-package evil-nerd-commenter
     :ensure t
     :config

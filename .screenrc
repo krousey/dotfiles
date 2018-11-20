@@ -135,5 +135,3 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 
 # default commands
 screen 0 
-screen -t emacs 9 ec -nw
-select 0

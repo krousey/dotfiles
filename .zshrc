@@ -31,7 +31,7 @@ TIMEFMT='%J
 
 PROMPT_USER=$(_my_prompt_color 'blue' '%n')
 PROMPT_AT=$(_my_prompt_color 'green' '@')
-PROMPT_MACHINE=$(_my_prompt_color 'white' '%m')
+PROMPT_MACHINE=$(_my_prompt_color 'white' '%2m')
 PROMPT_PWD=$(_my_prompt_color 'cyan' '%.')
 PROMPT_JOBS=$(_my_prompt_color 'red' '%(1j.[%j].)')
 
@@ -39,6 +39,7 @@ PROMPT=''
 PROMPT_ARRAY=($PROMPT_USER $PROMPT_AT $PROMPT_MACHINE ' ' $PROMPT_PWD $PROMPT_JOBS '> ')
 PROMPT=${(j::)PROMPT_ARRAY}
 
+eval "$(direnv hook zsh)"
 
 if [[ -f ~/.shell_common ]]; then
   source ~/.shell_common

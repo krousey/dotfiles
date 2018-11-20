@@ -27,6 +27,12 @@
   :ensure t
   :config (load-theme 'sanityinc-tomorrow-night t))
 
+;; Fonts and syntax
+
+(global-font-lock-mode t)
+(add-to-list 'default-frame-alist '(tool-bar-lines . 0))
+(set-frame-font "Inconsolata-12")
+
 ;; Miscellaneous
 
 ;; Reduce the clutter.
@@ -152,7 +158,9 @@ client name and remaining path")
   :ensure t
   :config
   (setq evil-default-cursor t)
-  (evil-mode 1))
+  (evil-mode 1)
+  (eval-after-load "evil-ex"
+    (evil-ex-define-cmd "W[rite]" 'evil-write)))
 
 (use-package key-chord  
   :ensure t

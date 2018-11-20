@@ -38,8 +38,8 @@ urxvt.font:             xft: Inconsolata:autohint=true:antialias=true:size=10
 !urxvt.boldFont:         xft: Inconsolata:autohint=true:antialias=true:size=10
 urxvt.scrollBar:        false
 urxvt.tintColor:        161616
-urxvt.fading:           45
-urxvt.fadeColor:        black
+!urxvt.fading:           45
+!urxvt.fadeColor:        black
 urxvt.shading:          24
 urxvt.transparent:      true
 urxvt.depth:            24
